@@ -3,6 +3,7 @@ import asyncio
 from models import User, BaseResponse
 from db import Database
 from config import DATABASE_URL
+from service import make_password
 
 db = Database(DATABASE_URL)
 
@@ -22,13 +23,14 @@ async def read_users():
 @router.post("", response_model=BaseResponse)
 async def create_user(user: User):
     await db.connect()
-    data = await db.add(full_name=user.full_name, username=user.username, email=user.email, password=user.password)
+    data = await db.add(full_name=user.full_name, username=user.username, email=user.email,
+                        password=make_password(user.password))
     await db.close()
     return BaseResponse(data=data)
 
 
 @router.put("", response_model=BaseResponse)
-async def update_user(user: User,user_id: int, ):
+async def update_user(user: User, user_id: int, ):
     await db.connect()
     users = await db.update(user_id, user.full_name, user.username, user.email, user.password)
     await db.close()

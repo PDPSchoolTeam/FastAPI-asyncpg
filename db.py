@@ -25,7 +25,7 @@ class Database:
             ''')
             print("Table 'users' created successfully!")
 
-    async def add(self, full_name: str, username: str, email: str, password: str) -> list[dict]:
+    async def add(self, full_name: str, username: str, email: str, password) -> list[dict]:
         async with self.pool.acquire() as conn:
             await conn.execute(
                 "INSERT INTO users (full_name,username,email,password) VALUES ($1, $2, $3, $4)",

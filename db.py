@@ -25,7 +25,7 @@ class Database:
             ''')
             print("Table 'users' created successfully!")
 
-    async def add(self, full_name: str,username: str, email:str, password:str)->list[dict]:
+    async def add(self, full_name: str, username: str, email: str, password: str) -> list[dict]:
         async with self.pool.acquire() as conn:
             await conn.execute(
                 "INSERT INTO users (full_name,username,email,password) VALUES ($1, $2, $3, $4)",
@@ -37,10 +37,9 @@ class Database:
             return [{
                 "fullname": full_name,
                 "username": username,
-                "email" : email,
-                "password" : password
+                "email": email,
+                "password": password
             }]
-
 
     async def all(self) -> list[dict]:
         async with self.pool.acquire() as conn:
@@ -52,16 +51,21 @@ class Database:
             user = await conn.fetchval("SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)", user_id)
             return user
 
-    async def update(self, user_id: int, new_name: str) -> int:
+    async def update(self, user_id: int, fullname: str, username: str, email: str, password: str) -> int:
         async with self.pool.acquire() as conn:
             result = await conn.execute(
-                "UPDATE users SET full_name = $1 WHERE user_id = $2", new_name, user_id
+                "UPDATE users SET full_name = $1,username = $2,email = $3,password = $4 WHERE id = $5",
+                fullname,
+                username,
+                email,
+                password,
+                user_id
             )
             return result
 
     async def delete(self, user_id: int) -> int:
         async with self.pool.acquire() as conn:
-            result = await conn.execute("DELETE FROM users WHERE user_id = $1", user_id)
+            result = await conn.execute("DELETE FROM users WHERE id = $1", user_id)
             return result
 
     async def close(self):

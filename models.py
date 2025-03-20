@@ -10,4 +10,4 @@ class User(BaseModel):
     full_name: str
     username: str
     email: str
-    password: str
+    password: str  

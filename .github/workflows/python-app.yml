@@ -35,7 +35,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run PostgreSQL script
-        run: python client.py
+        run: |
+          python client.py
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
@@ -45,5 +46,4 @@ jobs:
 
       - name: Test with pytest
         run: |
-          ./run.sh 
           pytest

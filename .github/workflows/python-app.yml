@@ -42,3 +42,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 1
           POSTGRES_DB: testdb
+
+      - name: Test with pytest
+        run: |
+          pytest

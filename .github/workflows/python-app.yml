@@ -37,6 +37,7 @@ jobs:
       - name: Run PostgreSQL script
         run: |
           python client.py
+          && python db.py
         env:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_PORT: 5432
